@@ -1,5 +1,6 @@
 import express from 'express'
-// import { User } from '@prisma/client'
+import { authenticate } from '../middleware/auth';
+import { registerUser, login } from '../controllers/userController';
 
 const router = express.Router()
 
@@ -21,4 +22,30 @@ router.get('/', (req: express.Request, res: express.Response) => {
   res.send(JSON.stringify(users))
 })
 
+router.post('/register', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const user = registerUser(req.body)
+    res.status(200).json(user);
+  } catch (e) {
+    next(e)
+  }
+
+});
+
+router.post('/login', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const token = await login(req.body)
+    res.json({ token });
+  } catch (e) {
+    next(e)
+  }
+});
+
+router.get('/protected', authenticate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    res.json({ message: 'This is a protected route' });
+  } catch (e) {
+    next(e)
+  }
+});
 export default router

@@ -8,6 +8,10 @@
       "es2020.string",
       "es2020.symbol.wellknown"
     ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -16,7 +20,8 @@
     "preserveConstEnums": true
   },
   "include": [
-    "src/**/*"
+    "src",
+    "types"
   ],
   "exclude": [
     "**/*.spec.ts"
