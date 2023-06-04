@@ -2,9 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config';
+import store from './store'
 
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'
 
-createApp(App).use(router).use(PrimeVue).mount('#app')
+createApp(App).use(router).use(PrimeVue).use(store).mount('#app')
