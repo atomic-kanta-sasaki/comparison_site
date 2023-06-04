@@ -26,7 +26,7 @@ export const login = async (body: UserBaseRequestBody) => {
   const { email, password } = body;
   const user: User | null = await prisma.user.findUnique({
     where: {
-      email,
+      email: email,
     },
   });
 

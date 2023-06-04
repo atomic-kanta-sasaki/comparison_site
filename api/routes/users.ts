@@ -18,7 +18,6 @@ const users: User[] = [
 
 // 一覧取得
 router.get('/', (req: express.Request, res: express.Response) => {
-  console.log("--------------------------------")
   res.send(JSON.stringify(users))
 })
 
@@ -35,6 +34,11 @@ router.post('/register', async (req: express.Request, res: express.Response, nex
 router.post('/login', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
     const token = await login(req.body)
+    res.cookie('token', token, {
+      sameSite: 'none',
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     res.json({ token });
   } catch (e) {
     next(e)
@@ -43,6 +47,11 @@ router.post('/login', async (req: express.Request, res: express.Response, next: 
 
 router.get('/protected', authenticate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(403).send({ message: 'Not authenticated' });
+    }
+
     res.json({ message: 'This is a protected route' });
   } catch (e) {
     next(e)

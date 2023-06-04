@@ -2,9 +2,8 @@
   <Header />
   <div class="main">
     <Sidebar />
-    <router-view />
     <div class="content">
-      <!-- Your content goes here -->
+      <router-view />
     </div>
   </div>
   <Footer />
